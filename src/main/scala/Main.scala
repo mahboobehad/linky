@@ -12,10 +12,9 @@ import scala.concurrent.{Await, ExecutionContextExecutor, Future}
 import scala.util.{Failure, Success}
 
 object Main extends App{
-  implicit val config: Config = ConfigFactory.load("application")
-//  val port: Int = config.getInt("server.port")
-  val port: Int = 8080
-  val host: String = "localhost"
+  implicit val config: Config = ConfigFactory.load("server")
+  val port: Int = config.getInt("server.port")
+  val host: String = config.getString("server.host")
 
   implicit val system: ActorSystem = ActorSystem("linky-system")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
@@ -34,7 +33,5 @@ object Main extends App{
       system.terminate()
   }
   Await.result(system.whenTerminated, Duration.Inf)
-
-
 }
 
