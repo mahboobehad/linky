@@ -40,7 +40,6 @@ object AccountsDAO extends TableQuery(new Accounts(_)) {
   }
 
   def create(account: Account): Future[Int] = {
-//    db.run(this returning this.map(_.id) into ((acc, id) => acc.copy(id = id)) += account)
     db.run(this += account)
 
   }
