@@ -12,7 +12,7 @@ import scala.concurrent.{Await, ExecutionContextExecutor, Future}
 import scala.util.{Failure, Success}
 
 object Main extends App{
-  implicit val config: Config = ConfigFactory.load("server")
+  implicit val config: Config = ConfigFactory.load()
   val port: Int = config.getInt("server.port")
   val host: String = config.getString("server.host")
 
@@ -33,5 +33,6 @@ object Main extends App{
       system.terminate()
   }
   Await.result(system.whenTerminated, Duration.Inf)
+
 }
 
