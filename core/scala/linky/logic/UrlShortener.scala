@@ -3,15 +3,16 @@ package linky.logic
 import java.security.MessageDigest
 
 import com.redis._
+import linky.http.models.ShortenEntity
 
 
 trait UrlShortener {
   private val redisClient = new RedisClient("localhost", 6379)
-  private val  baseUrl = "http://lin.ky/"
+  private val baseUrl = "http://lin.ky/"
 
-  def generateAndSaveShorterUrl(url: String, userId: String): String ={
-    val shorter = baseUrl +  MessageDigest.getInstance("MD5").digest((url + userId).getBytes).toString
-    saveShorterUrlToRedis(url, shorter)
+  def generateAndSaveShorterUrl(shortenerEntity: ShortenEntity, userId: String): String = {
+    val shorter = shortenerEntity.suggestedBase.getOrElse(baseUrl) + MessageDigest.getInstance("MD5").digest((shortenerEntity.url + userId).getBytes).toString
+    saveShorterUrlToRedis(shortenerEntity.url, shorter)
     shorter
   }
 

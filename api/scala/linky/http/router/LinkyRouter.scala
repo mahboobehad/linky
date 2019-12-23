@@ -32,7 +32,7 @@ class LinkyRouter(implicit val executionContext: ExecutionContext, implicit val 
       post {
         authenticateBasicAsync(realm = "secure site", authenticate) { userId =>
           entity(as[ShortenEntity]){ shortenEntity =>
-            val shorterUrl = generateAndSaveShorterUrl(shortenEntity.url, userId)
+            val shorterUrl = generateAndSaveShorterUrl(shortenEntity, userId)
             complete(ShorterUrlResponse(shorterUrl))
           }
         }
