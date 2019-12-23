@@ -9,8 +9,8 @@ trait UrlShortener {
   private val redisClient = new RedisClient("localhost", 6379)
   private val  baseUrl = "http://lin.ky/"
 
-  def generateAndSaveShorterUrl(url: String): String ={
-    val shorter = baseUrl +  MessageDigest.getInstance("MD5").digest(url.getBytes).toString
+  def generateAndSaveShorterUrl(url: String, userId: String): String ={
+    val shorter = baseUrl +  MessageDigest.getInstance("MD5").digest((url + userId).getBytes).toString
     saveShorterUrlToRedis(url, shorter)
     shorter
   }
