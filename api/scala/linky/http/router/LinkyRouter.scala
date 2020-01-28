@@ -1,7 +1,6 @@
 package linky.http.router
 
 import akka.event.LoggingAdapter
-import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpResponse, StatusCode}
 import akka.http.scaladsl.server.{Directives, Route}
 import linky.db.{Account, AccountsDAO}
 import linky.http.models.{HttpResponses, JsonSupport, RegisterEntity, ShortenEntity, ShorterUrlResponse}
@@ -15,6 +14,7 @@ class LinkyRouter(implicit val executionContext: ExecutionContext, implicit val 
   with Authenticator
   with UrlShortener {
 
+  // TODO add metrics
   val route: Route =
     path("register") {
       post {

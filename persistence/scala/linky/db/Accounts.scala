@@ -31,7 +31,6 @@ object AccountsDAO extends TableQuery(new Accounts(_)) {
   }
 
   def findByUsername(username: String): Future[Option[Account]] = {
-    print(username)
     db.run(this.filter(_.username === username).result).map(_.headOption)
   }
 
