@@ -6,6 +6,8 @@ scalaVersion := "2.13.1"
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 
+//addSbtPlugin("com.lightbend.cinnamon" % "sbt-cinnamon" % "2.13.0")
+
 libraryDependencies ++= {
   val slickV = "3.3.2"
   Seq(

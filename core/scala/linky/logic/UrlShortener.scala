@@ -11,10 +11,13 @@ trait UrlShortener {
   private val baseUrl = "http://lin.ky/"
 
   def generateAndSaveShorterUrl(shortenerEntity: ShortenEntity, userId: String): String = {
-    val shorter = shortenerEntity.suggestedBase.getOrElse(baseUrl) + MessageDigest.getInstance("MD5").digest((shortenerEntity.url + userId).getBytes).toString
+    val shorter = shortenerEntity.suggestedBase.getOrElse(baseUrl) + MessageDigest.getInstance("MD5").
+      digest((shortenerEntity.url + userId).getBytes).toString
     saveShorterUrlToRedis(shortenerEntity.url, shorter)
     shorter
   }
 
   private def saveShorterUrlToRedis(url: String, shorterUrl: String) = redisClient.set(shorterUrl, url)
+
+  def getUrl(shorterUrl: String): Option[String] = redisClient.get(shorterUrl)
 }
