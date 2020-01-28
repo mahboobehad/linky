@@ -1,6 +1,7 @@
 package linky.http.router
 
 import akka.event.LoggingAdapter
+import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.{Directives, Route}
 import linky.db.{Account, AccountsDAO}
 import linky.http.models.{HttpResponses, JsonSupport, RegisterEntity, ShortenEntity, ShorterUrlResponse}
@@ -29,21 +30,21 @@ class LinkyRouter(implicit val executionContext: ExecutionContext, implicit val 
           }
         }
       }
-    } ~ path("shorten") {
+    }~
+      path("shorten") {
       post {
         authenticateBasicAsync(realm = "secure site", authenticate) { userId =>
-          entity(as[ShortenEntity]){ shortenEntity =>
+          entity(as[ShortenEntity]) { shortenEntity =>
             val shorterUrl = generateAndSaveShorterUrl(shortenEntity, userId)
             complete(ShorterUrlResponse(shorterUrl))
           }
         }
       }
-    } ~ path("redirect"){
-      parameters("shorterUrl"){
-        shorterUrl => complete{
-          val url = getUrl(shorterUrl)
-          HttpResponses.expandedUrl(url)
-        }
+    } ~
+      path("""re.+""".r) { shorterUrl =>
+      get {
+        redirect(getUrl(shorterUrl), StatusCodes.TemporaryRedirect)
       }
     }
 }
+
