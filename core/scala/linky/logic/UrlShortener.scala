@@ -9,6 +9,8 @@ import linky.http.models.ShortenEntity
 
 
 trait UrlShortener {
+  // TODO read from config
+  // TODO serve static page for 404
   private val redisClient = new RedisClient("localhost", 6379)
   private val baseUrl = "http://lin.ky/"
   private val prefix = "re"
